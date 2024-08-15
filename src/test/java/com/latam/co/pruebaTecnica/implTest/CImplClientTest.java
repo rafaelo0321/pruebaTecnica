@@ -10,14 +10,21 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.*;
+import static java.util.function.Predicate.not;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+import static sun.nio.cs.Surrogate.is;
 
-class CImplClientTest {
+public class CImplClientTest {
+    private final Logger LOG = LoggerFactory.getLogger(CImplClientTest.class);
 
     @Mock
     private IClientRepository iClientRepository;
@@ -26,30 +33,62 @@ class CImplClientTest {
     private CImplClient cImplClient;
 
     @BeforeEach
-    void setUp() {
+    void setUp(){
         MockitoAnnotations.openMocks(this);
     }
+    @Test
+    void testShowClientForTypoAndNumberClientNotFound() {
+        // Inicializa los mocks
+        MockitoAnnotations.openMocks(this);
+
+        try {
+            RQueryClient queryClient = new RQueryClient(ETypoDocument.CC, "23445322");
+
+            when(iClientRepository.findByTypoDocumentAndNumberDocument((ETypoDocument.CC),("String.class")))
+                    .thenReturn(Optional.empty());
+
+            Client response = cImplClient.getClientTypoAndNumber(queryClient.typoDocument(), queryClient.numberDocument());
+
+            assertNull(response, "El cliente debería ser nulo si no se encuentra en la base de datos");
+
+        } catch (Exception e) {
+            LOG.error("No se esperaba una excepción: " + e.getMessage());
+        }
+    }
+
 
     @Test
-    void testShowClientForTypoAndNumberExitoso() {
+    void testSchowClientForTypoAndNumber(){
+        try{
+            RQueryClient queryClient = new RQueryClient(ETypoDocument.CC,"23445322");
+            Client client = new Client();
+            client.setNumberDocument("23445322");
+            client.setFirstName("Juan");
+            client.setMiddleName("Antonio");
+            client.setLastName("Perez");
+            client.setSecondLastName("Arsuaga");
+            client.setAddress("Av. Siempre Viva");
+            client.setTypoDocument(ETypoDocument.CC);
+            client.setPhone("3016903678");
+            client.setCityOfResidence("Bogotá DC");
+            iClientRepository.save(client);
+            when(iClientRepository.findByTypoDocumentAndNumberDocument(queryClient.typoDocument(),queryClient.numberDocument())).thenReturn(Optional.of(client));
 
-        RQueryClient queryClient = new RQueryClient(ETypoDocument.CC, "23445322");
-        Client client = new Client();
-        client.setNumberDocument("23445322");
-        client.setFirstName("Juan");
-        client.setMiddleName("Antonio");
-        client.setLastName("Perez");
-        client.setSecondLastName("Arsuaga");
-        client.setAddress("Av. Siempre Viva");
-        client.setTypoDocument(ETypoDocument.CC);
-        client.setPhone("3016903678");
-        client.setCityOfResidence("Bogotá DC");
+            Client response = cImplClient.getClientTypoAndNumber(queryClient.typoDocument(),queryClient.numberDocument());
 
-        when(iClientRepository.findByTypoDocumentAndNumberDocument(queryClient.typoDocument(), queryClient.numberDocument())).thenReturn(Optional.of(client));
+            assertNotNull(response);
+            assertEquals(client,response);
 
-        Client respuesta = cImplClient.getClientTypoAndNumber(queryClient.typoDocument(), queryClient.numberDocument());
-
-        assertNotNull(respuesta);
-        assertEquals(client, respuesta);
+        }catch (Exception e){
+            fail(e.getMessage());
+        }
     }
+    @Test
+    public void listClientIsEmpty(){
+        List<Client> clients = cImplClient.getAllClient();
+
+        assertFalse(clients.isEmpty());
+        assertThat(clients.size(), greaterThan(0));
+    }
+
 }

@@ -24,18 +24,6 @@ public class CImplClient implements IClientService {
         this.iClientRepository = iClientRepository;
     }
 
-
-    @Override
-    public ResponseEntity<?> showClientForTypoAndNumber(RQueryClient client) {
-        try{
-            LOG.info("A client is shown according to the document number and document type");
-            return new ResponseEntity<>(new RShowClient(getClientTypoAndNumber(client.typoDocument(),client.numberDocument())),HttpStatus.OK);
-        }catch (Exception e){
-            LOG.error("Error: {}",e.getMessage());
-
-            return new ResponseEntity<>(new Error(e.getMessage()),HttpStatus.BAD_REQUEST);
-        }
-    }
     @Override
     public ResponseEntity<List<?>> showAllClients() {
         try{
@@ -43,7 +31,7 @@ public class CImplClient implements IClientService {
             return new ResponseEntity<>(getAllClient().stream().map(RShowClient::new).collect(Collectors.toList()),HttpStatus.OK);
         }catch (RuntimeException e){
             LOG.error("Error: {}",e.getMessage());
-            return new ResponseEntity<>(List.of(new Error(e.getMessage())),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(List.of(e.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -54,10 +42,20 @@ public class CImplClient implements IClientService {
             return new ResponseEntity<>(new RShowClient(getClient(id)),HttpStatus.OK);
         }catch (RuntimeException e){
             LOG.error("Error: {}",e.getMessage());
-            return new ResponseEntity<>(new Error(e.getMessage()),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 
+    @Override
+    public ResponseEntity<?> showClientForTypoAndNumber(RQueryClient client) {
+        try{
+            LOG.info("A client is shown according to the document number and document type");
+            return new ResponseEntity<>(new RShowClient(getClientTypoAndNumber(client.typoDocument(),client.numberDocument())),HttpStatus.OK);
+        }catch (RuntimeException e){
+            LOG.error("Error: {}",e.getMessage());
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @Override
     public Client getClient(Long id) {

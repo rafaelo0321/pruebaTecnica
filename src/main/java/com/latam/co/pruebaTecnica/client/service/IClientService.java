@@ -9,11 +9,10 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface IClientService {
-
-    ResponseEntity<?> showClientForTypoAndNumber(RQueryClient client);
-
     ResponseEntity<List<?>> showAllClients();
     ResponseEntity<?> showOneClient(Long id);
+    ResponseEntity<?> showClientForTypoAndNumber(RQueryClient client);
+
     Client getClient(Long id);
     List<Client> getAllClient();
     Client getClientTypoAndNumber(ETypoDocument typoDocument, String numberDocument);

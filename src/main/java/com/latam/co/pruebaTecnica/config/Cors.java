@@ -1,9 +1,8 @@
 package com.latam.co.pruebaTecnica.config;
 
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-@Configuration
+
 public class Cors implements WebMvcConfigurer {
 
     @Override
@@ -14,6 +13,5 @@ public class Cors implements WebMvcConfigurer {
                 .allowedHeaders("Origin", "Content-Type", "Accept", "Authorization")
                 .allowCredentials(true)
                 .maxAge(3600);
-
     }
 }

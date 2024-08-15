@@ -31,10 +31,10 @@ public class Client {
 
     @Column(name = "city")
     private String cityOfResidence;
-
     //
     @Enumerated(EnumType.STRING)
     private ETypoDocument typoDocument;
+
     private String numberDocument;
 
     public Client() {

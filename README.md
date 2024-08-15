@@ -1,5 +1,13 @@
 # pruebaTecnica
-Probar graphiql en la Web
+Arrancar el proyecto:
+
+Primero: Abrir una consola y ejecutar el comando -> ./mvnw clean package -DskipTests
+
+Segundo: En la misma consola ejecutar el comando docker-compose up
+
+![Docker.png](Docker.png)
+
+Probar graphql
 Interface Grafica: http://localhost:8090/graphiql?path=/graphql&wsPath=/graphql
 Postman: http://localhost:8090/graphql
 
@@ -12,8 +20,5 @@ query{
         firstName
     }
 }
-Arrancar el proyecto:
 
-Primero: Abrir una consola y ejecutar el comando -> ./mvnw clean package -DskipTests
-
-Segundo: En la misma consola ejecutar el comando docker-compose up
+![Graphql.jpg](Graphql.jpg)

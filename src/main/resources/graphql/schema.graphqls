@@ -1,0 +1,21 @@
+type Query {
+    showClientForTypeDocumentAndNumberDocument(rQueryClient:RQueryClient):Client
+}
+type Client {
+    id:ID
+    firstName:String
+    middleName:String
+    lastName:String
+    secondLastName:String
+    phone:String
+    address:String
+    cityOfResidence:String
+}
+input RQueryClient {
+    typoDocument:ETypoDocument
+    numberDocument:String
+}
+enum ETypoDocument{
+    P
+    CC
+}

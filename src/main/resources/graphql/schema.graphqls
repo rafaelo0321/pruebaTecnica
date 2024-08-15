@@ -12,8 +12,8 @@ type Client {
     cityOfResidence:String
 }
 input RQueryClient {
-    typoDocument:ETypoDocument
-    numberDocument:String
+    typoDocument:ETypoDocument!
+    numberDocument:String!
 }
 enum ETypoDocument{
     P

@@ -1,12 +1,4 @@
 services:
-  angular_app:
-    container_name: angular_app
-    image: angular_app:1.0.0
-    build: ./angular/prueba-tecnica-app/
-    ports:
-      - "4200:4200"
-    depends_on:
-      - java_app
   java_app:
     container_name: java_app
     image: java-app:1.0.0

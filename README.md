@@ -13,5 +13,7 @@ query{
     }
 }
 Arrancar el proyecto:
+
 Primero: Abrir una consola y ejecutar el comando -> ./mvnw clean package -DskipTests
+
 Segundo: En la misma consola ejecutar el comando docker-compose up

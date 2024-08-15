@@ -36,7 +36,6 @@ public class CImplClientTest {
     }
     @Test
     void testShowClientForTypoAndNumberClientNotFound() {
-        // Inicializa los mocks
         MockitoAnnotations.openMocks(this);
 
         try {
@@ -88,5 +87,7 @@ public class CImplClientTest {
         assertFalse(clients.isEmpty());
         assertThat(clients.size(), greaterThan(0));
     }
+
+
 
 }

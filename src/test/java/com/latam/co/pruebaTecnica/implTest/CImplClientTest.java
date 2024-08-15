@@ -18,10 +18,8 @@ import static org.hamcrest.Matchers.*;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.function.Predicate.not;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
-import static sun.nio.cs.Surrogate.is;
 
 public class CImplClientTest {
     private final Logger LOG = LoggerFactory.getLogger(CImplClientTest.class);
